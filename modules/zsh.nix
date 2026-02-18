@@ -5,6 +5,8 @@
   programs.zsh = {
     enable = true;
 
+    autosuggestion.enable = true;
+
     # Shell aliases
     shellAliases = {
       # Navigation aliases
