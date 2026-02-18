@@ -8,6 +8,8 @@
 
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }: {
@@ -15,16 +17,23 @@
     darwinConfigurations."m1" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
 
+      specialArgs = {
+        pkgs-unstable = import inputs.nixpkgs-unstable {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
+        };
+      };
+
       modules = [
-        {
+        ({ pkgs, pkgs-unstable, ... }: {
           # Define the macOS user
           users.users.julian = {
             home = "/Users/julian";
           };
 
           # System packages
-          environment.systemPackages = with nixpkgs.legacyPackages.aarch64-darwin; [
-            git 
+          environment.systemPackages = with pkgs; [
+            git
             zsh
             vim
             tmux
@@ -36,6 +45,7 @@
             starship
             fastfetch
             nerd-fonts.jetbrains-mono
+            pkgs-unstable.claude-code
           ];
 
           # Enable flakes
@@ -59,7 +69,7 @@
           # Darwin metadata
           system.stateVersion = 6;
           system.configurationRevision = self.rev or self.dirtyRev or null;
-        }
+        })
       ];
     };
   };
