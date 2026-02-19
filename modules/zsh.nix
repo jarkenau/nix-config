@@ -26,5 +26,8 @@
   # Set Zsh as default shell
   home.sessionVariables = {
     SHELL = "${pkgs.zsh}/bin/zsh";
+    # Set locale to English
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
   };
 }
