@@ -62,7 +62,7 @@
             programs.fzf.enable = true;
             programs.fzf.enableZshIntegration = true;
 
-            imports = [./modules/starship.nix ./modules/git.nix ./modules/zsh.nix];
+            imports = [./modules/starship.nix ./modules/git.nix ./modules/zsh.nix ./modules/tmux.nix];
          
           };
 
