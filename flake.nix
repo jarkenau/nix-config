@@ -1,5 +1,5 @@
 {
-  description = "Julian Arkenau nix-darwin system flake";
+  description = "Julian Arkenau nix-darwin and home-manager flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
@@ -31,45 +31,45 @@
             home = "/Users/julian";
           };
 
-          # System packages
-          environment.systemPackages = with pkgs; [
-            git
-            zsh
-            vim
-            tmux
-            fzf
-            htop
-            tree
-            curl
-            unzip
-            starship
-            fastfetch
-            nerd-fonts.jetbrains-mono
-            pkgs-unstable.claude-code
-          ];
-
           # Enable flakes
           nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
           # Import Home Manager module
           imports = [ home-manager.darwinModules.home-manager];
 
+          # Pass pkgs-unstable to home-manager
+          home-manager.extraSpecialArgs = { inherit pkgs-unstable; };
+
           # Home Manager user configuration
           home-manager.users.julian = {
             home.homeDirectory = "/Users/julian";
-            home.stateVersion = "25.05";
-
-            programs.fzf.enable = true;
-            programs.fzf.enableZshIntegration = true;
-
-            imports = [./modules/starship.nix ./modules/git.nix ./modules/zsh.nix ./modules/tmux.nix];
-         
+            imports = [ ./modules/common.nix ];
           };
 
           # Darwin metadata
           system.stateVersion = 6;
           system.configurationRevision = self.rev or self.dirtyRev or null;
         })
+      ];
+    };
+
+    # Home Manager standalone configuration for Linux
+    homeConfigurations.ubuntu = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+
+      extraSpecialArgs = {
+        pkgs-unstable = import inputs.nixpkgs-unstable {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+      };
+
+      modules = [
+        {
+          home.username = "julian";
+          home.homeDirectory = "/home/julian";
+          imports = [ ./modules/common.nix ];
+        }
       ];
     };
   };
