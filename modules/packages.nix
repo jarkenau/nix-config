@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, claude-code, ... }:
+{ pkgs, claude-code, ... }:
 
 {
   # Shared package list for both macOS and Linux

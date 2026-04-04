@@ -9,8 +9,6 @@
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
     claude-code.url = "github:sadjow/claude-code-nix";
   };
 
@@ -20,15 +18,11 @@
       system = "aarch64-darwin";
 
       specialArgs = {
-        pkgs-unstable = import inputs.nixpkgs-unstable {
-          system = "aarch64-darwin";
-          config.allowUnfree = true;
-        };
         claude-code = inputs.claude-code.packages.aarch64-darwin.default;
       };
 
       modules = [
-        ({ pkgs, pkgs-unstable, claude-code, ... }: {
+        ({ pkgs, claude-code, ... }: {
           # Define the macOS user
           users.users.julian = {
             home = "/Users/julian";
@@ -40,8 +34,7 @@
           # Import Home Manager module
           imports = [ home-manager.darwinModules.home-manager];
 
-          # Pass pkgs-unstable and claude-code to home-manager
-          home-manager.extraSpecialArgs = { inherit pkgs-unstable claude-code; };
+          home-manager.extraSpecialArgs = { inherit claude-code; };
 
           # Home Manager user configuration
           home-manager.users.julian = {
