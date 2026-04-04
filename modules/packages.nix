@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, claude-code, ... }:
 
 {
   # Shared package list for both macOS and Linux
@@ -15,6 +15,6 @@
     starship
     fastfetch
     nerd-fonts.jetbrains-mono
-    pkgs-unstable.claude-code
+    claude-code
   ];
 }
