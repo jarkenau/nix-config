@@ -12,7 +12,25 @@
     claude-code.url = "github:sadjow/claude-code-nix";
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }:
+  let
+    # Builds a standalone home-manager configuration for a given Linux architecture.
+    mkLinuxHome = system: home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      extraSpecialArgs = {
+        pkgs-unstable = import inputs.nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        claude-code = inputs.claude-code.packages.${system}.default;
+      };
+      modules = [{
+        home.username = "julian";
+        home.homeDirectory = "/home/julian";
+        imports = [ ./modules/common.nix ];
+      }];
+    };
+  in {
 
     darwinConfigurations."m1" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
@@ -49,25 +67,7 @@
       ];
     };
 
-    # Home Manager standalone configuration for Linux
-    homeConfigurations.ubuntu = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-
-      extraSpecialArgs = {
-        pkgs-unstable = import inputs.nixpkgs-unstable {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-        };
-        claude-code = inputs.claude-code.packages.x86_64-linux.default;
-      };
-
-      modules = [
-        {
-          home.username = "julian";
-          home.homeDirectory = "/home/julian";
-          imports = [ ./modules/common.nix ];
-        }
-      ];
-    };
+    homeConfigurations.ubuntu     = mkLinuxHome "x86_64-linux";
+    homeConfigurations.ubuntu-arm = mkLinuxHome "aarch64-linux";
   };
 }
