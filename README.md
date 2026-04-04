@@ -30,7 +30,7 @@ Update:
 sudo darwin-rebuild switch --flake .#m1
 ```
 
-### Ubuntu
+### Ubuntu (x86_64)
 
 First-time setup:
 ```bash
@@ -45,17 +45,7 @@ echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 nix run github:nix-community/home-manager/release-25.05 -- switch --flake .#ubuntu
 ```
 
-After applying the configuration for the first time, you need to manually set zsh as your login shell (home-manager cannot do this on Ubuntu):
-
-```bash
-# Allow nix zsh to be used as a login shell
-echo ~/.nix-profile/bin/zsh | sudo tee -a /etc/shells
-
-# Change your login shell to zsh
-chsh -s ~/.nix-profile/bin/zsh
-```
-
-Then log out and back in for the shell change to take effect.
+Zsh is configured automatically — no need to run `chsh`. The login shell stays as `/bin/bash` (required for Wayland/GDM compatibility), and bash will hand off to zsh automatically for any interactive terminal session.
 
 To make Nix-installed fonts (e.g. JetBrains Mono Nerd Font) available for selection in your terminal, link them into the user fonts directory and refresh the font cache:
 
@@ -69,4 +59,28 @@ Update:
 ```bash
 nix flake update
 home-manager switch --flake .#ubuntu
+```
+
+### Ubuntu (aarch64, ARM VM on Apple Silicon)
+
+Same setup steps as x86_64, but use the `ubuntu-arm` configuration target instead:
+
+```bash
+# Install Nix
+sh <(curl -L https://nixos.org/nix/install) --daemon
+
+# Enable flakes
+mkdir -p ~/.config/nix
+echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+
+# Apply configuration
+nix run github:nix-community/home-manager/release-25.05 -- switch --flake .#ubuntu-arm
+```
+
+Zsh and font setup are identical to the x86_64 section above.
+
+Update:
+```bash
+nix flake update
+home-manager switch --flake .#ubuntu-arm
 ```

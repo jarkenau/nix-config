@@ -23,7 +23,17 @@
       dt = "cd ~/Desktop";
     };
   };
-  # Set Zsh as default shell
+  # Keep /bin/bash as the login shell (required for Wayland/GDM compatibility),
+  # but exec into zsh immediately for interactive terminal sessions.
+  programs.bash = {
+    enable = true;
+    profileExtra = ''
+      if [ -t 0 ] && [ -x "${pkgs.zsh}/bin/zsh" ]; then
+        exec "${pkgs.zsh}/bin/zsh" -l
+      fi
+    '';
+  };
+
   home.sessionVariables = {
     SHELL = "${pkgs.zsh}/bin/zsh";
     # Set locale to English
