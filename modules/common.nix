@@ -3,7 +3,7 @@
 {
   # Shared home-manager configuration for both macOS and Linux
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 
   # Enable fzf with zsh integration
   programs.fzf.enable = true;
