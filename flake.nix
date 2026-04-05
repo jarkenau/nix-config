@@ -10,6 +10,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     claude-code.url = "github:sadjow/claude-code-nix";
+    codex.url = "github:sadjow/codex-cli-nix";
   };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }:
@@ -20,10 +21,11 @@
 
       specialArgs = {
         claude-code = inputs.claude-code.packages.aarch64-darwin.default;
+        codex = inputs.codex.packages.aarch64-darwin.default;
       };
 
       modules = [
-        ({ pkgs, claude-code, ... }: {
+        ({ pkgs, claude-code, codex, ... }: {
           # Define the macOS user
           users.users.julian = {
             home = "/Users/julian";
@@ -35,7 +37,7 @@
           # Import Home Manager module
           imports = [ home-manager.darwinModules.home-manager];
 
-          home-manager.extraSpecialArgs = { inherit claude-code; };
+          home-manager.extraSpecialArgs = { inherit claude-code codex; };
 
           # Home Manager user configuration
           home-manager.users.julian = {

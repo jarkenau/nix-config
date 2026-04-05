@@ -1,4 +1,4 @@
-{ pkgs, claude-code, ... }:
+{ pkgs, claude-code, codex, ... }:
 
 {
   # Shared package list for both macOS and Linux
@@ -16,5 +16,6 @@
     fastfetch
     nerd-fonts.jetbrains-mono
     claude-code
+    codex
   ];
 }
