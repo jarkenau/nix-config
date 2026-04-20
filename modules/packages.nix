@@ -17,5 +17,6 @@
     nerd-fonts.jetbrains-mono
     claude-code
     codex
+    uv
   ];
 }
