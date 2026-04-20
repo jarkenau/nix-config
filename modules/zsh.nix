@@ -7,6 +7,11 @@
 
     autosuggestion.enable = true;
 
+    initContent = ''
+      # Docker Desktop
+      export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
+    '';
+
     # Shell aliases
     shellAliases = {
       # Navigation aliases
