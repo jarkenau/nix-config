@@ -12,10 +12,39 @@ sh <(curl -L https://nixos.org/nix/install)
 nix run nix-darwin -- switch --flake .#m1
 ```
 
-## Update
+## Applying Changes
+
+To Apply configuration changes:
 
 ```bash
 sudo darwin-rebuild switch --flake .#m1
+```
+
+## Upgrading Packages
+
+Packages are pinned via `flake.lock`. To pull in newer versions:
+
+```bash
+nix flake update          # update all inputs
+nix flake update nixpkgs  # or a single input
+sudo darwin-rebuild switch --flake .#m1
+```
+
+To upgrade to a new stable release, bump the channel versions in `flake.nix` (e.g. `25.11` → `26.05`), then run the above.
+
+## Cleaning up
+
+Old package generations accumulate in the Nix store. To free disk space:
+
+```bash
+nix-collect-garbage -d   # delete all old generations and unreferenced packages
+```
+
+Or keep the last N generations:
+
+```bash
+sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system
+nix-collect-garbage
 ```
 
 ## Unsuitable to use for Linux
