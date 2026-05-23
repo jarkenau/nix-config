@@ -18,5 +18,6 @@
     claude-code
     codex
     uv
+    texlive.combined.scheme-medium
   ];
 }
