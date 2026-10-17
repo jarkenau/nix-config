@@ -18,6 +18,7 @@
     claude-code
     codex
     uv
+    pre-commit
     texlive.combined.scheme-medium
   ];
 }
