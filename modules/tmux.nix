@@ -7,7 +7,6 @@
     historyLimit = 10000;
     mouse = true;
     baseIndex = 1;
-    prefix = "C-a";
 
     extraConfig = ''
       # Renumber windows sequentially after closing any of them
@@ -15,12 +14,6 @@
 
       # Enable true color support
       set -ga terminal-overrides ",*256col*:Tc"
-
-      # Pane splitting with intuitive keys
-      bind | split-window -h -c "#{pane_current_path}"
-      bind - split-window -v -c "#{pane_current_path}"
-      unbind '"'
-      unbind %
 
       # Vim-style pane navigation
       bind h select-pane -L
