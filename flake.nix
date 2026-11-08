@@ -34,6 +34,11 @@
           # Enable flakes
           nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+          # Home Manager's .zshrc already runs compinit; a second one in /etc/zshrc
+          # (with a different fpath) rebuilds ~/.zcompdump on every shell (~2s).
+          programs.zsh.enableCompletion = false;
+          programs.zsh.enableBashCompletion = false;
+
           # Import Home Manager module
           imports = [ home-manager.darwinModules.home-manager];
 
