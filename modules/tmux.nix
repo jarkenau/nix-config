@@ -7,6 +7,7 @@
     historyLimit = 10000;
     mouse = true;
     baseIndex = 1;
+    keyMode = "vi";
 
     extraConfig = ''
       # Renumber windows sequentially after closing any of them
