@@ -1,4 +1,4 @@
-{ pkgs, claude-code, codex, ... }:
+{ pkgs, claude-code, ... }:
 
 {
   # Shared package list for both macOS and Linux
@@ -16,7 +16,6 @@
     fastfetch
     nerd-fonts.jetbrains-mono
     claude-code
-    codex
     uv
     nodejs
     pre-commit

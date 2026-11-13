@@ -185,7 +185,7 @@ flowchart LR
     n["nixpkgs<br/>nixpkgs-25.11-darwin"]
     d["nix-darwin<br/>nix-darwin-25.11"]
     h["home-manager<br/>release-25.11"]
-    cc["claude-code · codex<br/>third-party flakes"]
+    cc["claude-code<br/>third-party flake"]
   end
   subgraph outp["outputs"]
     m["darwinConfigurations.m1<br/>system = aarch64-darwin"]
@@ -203,7 +203,7 @@ Three details from this repo's `flake.nix`:
   Without it you'd evaluate two or three nixpkgs trees and get duplicate builds.
 - **`specialArgs` / `extraSpecialArgs`** injects extra values into every
   module's argument list. That's the plumbing that lets `modules/packages.nix`
-  write `{ pkgs, claude-code, codex, ... }:` and have those resolve.
+  write `{ pkgs, claude-code, ... }:` and have those resolve.
 - **`.#m1`** means "attribute `m1` of the flake in the current directory",
   specifically `darwinConfigurations."m1"`. The name is arbitrary; it's the
   label for this machine.
