@@ -55,5 +55,20 @@
       ];
     };
 
+    # Standalone home-manager configuration for Ubuntu (x86_64)
+    homeConfigurations."work" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+
+      extraSpecialArgs = {
+        claude-code = inputs.claude-code.packages.x86_64-linux.default;
+      };
+
+      modules = [{
+        home.username = "julian";
+        home.homeDirectory = "/home/julian";
+        imports = [ ./modules/common.nix ./modules/linux.nix ];
+      }];
+    };
+
   };
 }

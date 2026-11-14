@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Enable Zsh
@@ -7,7 +7,7 @@
 
     autosuggestion.enable = true;
 
-    initContent = ''
+    initContent = lib.optionalString pkgs.stdenv.isDarwin ''
       # Docker Desktop
       export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
     '';
