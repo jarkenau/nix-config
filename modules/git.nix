@@ -25,10 +25,12 @@
         dc = "diff --cached";
         ds = "diff --stat";
         l = "log --color --graph --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'";
+        tree = "log --graph --oneline --all --decorate";
         last = "log -1 HEAD --stat";
         la = "!git config -l | grep alias";
         cfg = "!git config -l | grep -v '^branch'";
       };
+      push.autoSetupRemote = true;
     };
   };
 }
