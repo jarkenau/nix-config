@@ -18,7 +18,6 @@
     nerd-fonts.jetbrains-mono
     claude-code
     uv
-    nodejs
     pre-commit
     texlive.combined.scheme-medium
   ];
