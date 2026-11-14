@@ -8,6 +8,7 @@
     vim
     tmux
     fzf
+    ripgrep
     htop
     tree
     curl
