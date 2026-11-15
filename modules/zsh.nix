@@ -30,11 +30,14 @@
   };
   # Keep /bin/bash as the login shell (required for Wayland/GDM compatibility),
   # but exec into zsh immediately for interactive terminal sessions.
+  # Not in .bash_profile: GDM runs `bash -l -c gnome-session` with the VT as
+  # stdin, so a tty check there replaced the session with zsh (login loop).
   programs.bash = {
     enable = true;
-    profileExtra = ''
-      if [ -t 0 ] && [ -x "${pkgs.zsh}/bin/zsh" ]; then
-        exec "${pkgs.zsh}/bin/zsh" -l
+    initExtra = ''
+      if [[ $- == *i* && -z $BASH_EXECUTION_STRING && $(ps -o comm= -p $PPID) != zsh ]]; then
+        shopt -q login_shell && exec "${pkgs.zsh}/bin/zsh" -l
+        exec "${pkgs.zsh}/bin/zsh"
       fi
     '';
   };
