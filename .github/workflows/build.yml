@@ -13,7 +13,7 @@ on:
       - "docs/**"
 
 jobs:
-  build:
+  build-macos:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
@@ -23,3 +23,14 @@ jobs:
       - uses: DeterminateSystems/flakehub-cache-action@v3.17.3
 
       - run: nix build .#darwinConfigurations.m1.system
+
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v17
+
+      - uses: DeterminateSystems/flakehub-cache-action@v3.17.3
+
+      - run: nix build .#homeConfigurations.work.activationPackage
