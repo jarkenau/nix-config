@@ -63,11 +63,11 @@
         claude-code = inputs.claude-code.packages.x86_64-linux.default;
       };
 
-      modules = [{
-        home.username = "julian";
-        home.homeDirectory = "/home/julian";
+      modules = [({ config, ... }: {
+        home.username = "julian-arkenau";
+        home.homeDirectory = "/home/${config.home.username}";
         imports = [ ./modules/common.nix ./modules/linux.nix ];
-      }];
+      })];
     };
 
   };
